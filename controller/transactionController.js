@@ -50,7 +50,7 @@ const deleteTransaction = async(req,res)=>{
         return res.status(500).json({ data: error, message: 'Internal server error', status: false })
     }
 }
-
+    
 module.exports = {
     upsertTransaction,
     allTransaction,

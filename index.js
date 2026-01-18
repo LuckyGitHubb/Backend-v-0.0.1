@@ -9,10 +9,12 @@ app.use(cors())
 const connectionDB = require('./config/db');
 const transactionRouter = require('./routes/transactionRoute');
 const branchRouter = require('./routes/branchRoute');
+const productRouter = require('./routes/productRoute');
 const PORT_NO = '5000';
 
 app.use('/transaction',transactionRouter)
 app.use('/branch',branchRouter)
+app.use('/product',productRouter)
 
 app.listen(PORT_NO,async()=>{
     try {
