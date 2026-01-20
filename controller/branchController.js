@@ -1,13 +1,19 @@
 const branchModel = require("../models/branchModel");
+const generateUniqueCode = require('../utils/generateUniqueCode')
 
 const upsertBranch = async (req, res) => {
     try {
         const data = req?.body;
         const { id } = data;
+        let branch;
 
-        const branch = id ?
-            await branchModel.findByIdAndUpdate(id, data, { new: true }) :
-            await branchModel.create(data)
+        if(id){
+            branch = await branchModel.findByIdAndUpdate(id, data, { new: true })
+        }
+        else{
+            const code = await generateUniqueCode('branch','BRC')
+            branch = await branchModel.create({...data,code})
+        }
 
         return res.status(200).json({
             data: branch, message: id ?

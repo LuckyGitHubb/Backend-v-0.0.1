@@ -1,13 +1,19 @@
 const productModel = require("../models/productModel");
+const generateUniqueCode = require("../utils/generateUniqueCode");
 
 const upsertProduct = async (req, res) => {
     try {
         const data = req?.body;
         const { id } = data;
+        let product;
 
-        const product = id ?
-            await productModel.findByIdAndUpdate(id, data, { new: true }) :
-            await productModel.create(data)
+        if(id){
+            product = await productModel.findByIdAndUpdate(id, data, { new: true })
+        }
+        else{
+            const code = await generateUniqueCode('product','PRD')
+            product = await productModel.create({...data,code})
+        }
 
         return res.status(200).json({
             data: product, message: id ?

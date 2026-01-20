@@ -1,13 +1,19 @@
 const transactionModel = require("../models/transactionModel");
+const generateUniqueCode = require("../utils/generateUniqueCode");
 
 const upsertTransaction = async (req, res) => {
     try {
         const data = req?.body;
         const {id} = data;
+        let transaction;
 
-            const transaction = id ? 
-            await transactionModel.findByIdAndUpdate(id,data, { new: true }) : 
-            await transactionModel.create(data)
+        if(id){
+            transaction = await transactionModel.findByIdAndUpdate(id,data, { new: true })
+        }
+        else{
+            const code = await generateUniqueCode('transaction','TRC')
+            transaction = await transactionModel.create({...data,code})
+        }
 
         return res.status(200).json({ 
             data: transaction, message: id ? 
