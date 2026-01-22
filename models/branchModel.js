@@ -12,4 +12,4 @@ const branchSchema = new mongoose.Schema({
 })
 
 const branchModel = mongoose.model('branch',branchSchema);
-module.exports = branchModel;
+module.exports = branchModel;           
