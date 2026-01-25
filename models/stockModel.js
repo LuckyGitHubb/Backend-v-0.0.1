@@ -5,8 +5,8 @@ const stockSchema = new mongoose.Schema({
         branchId: { type: mongoose.Schema.Types.ObjectId, ref: 'branch' },   // which branch owns this stock
         batchNo: { type: String },
         code: { type: String },
-        qty: { type: String },        // how many units available
-        expiryDate: { type: String },
+        qty: { type: Number },        // how many units available
+        expiryDate: { type: Date },
         purchasePrice: { type: Number },
         sellingPrice: { type: Number },
         isDeleted: {
