@@ -4,16 +4,16 @@ const stockModel = require('../models/stockModel')
 const generateUniqueCode = require('../utils/generateUniqueCode');
 
 const addSale = async (req, res) => {
-    const { branchId, items } = req.body; 
-    const saleCode = await generateUniqueCode("sale","SAL")
+    const { branchId, items } = req.body;
+    const saleCode = await generateUniqueCode("sale", "SAL")
     // 1. Create Sale 
     const sale = await saleModel.create({
-        code: saleCode, 
+        code: saleCode,
         branchId
     });
     for (let item of items) {
         let remainingQty = item.qty;
-        const saleItemCode = await generateUniqueCode("saleItem","SI")
+        const saleItemCode = await generateUniqueCode("saleItem", "SI")
         // 2. Create SaleItem 
         await saleItemModel.create({
             code: saleItemCode,
@@ -25,7 +25,7 @@ const addSale = async (req, res) => {
         // 3. Fetch stock batches (FIFO)
         const stocks = await stockModel.find({
             productId: item.productId,
-            branchId,   
+            branchId,
             qty: { $gt: 0 },
             expiryDate: { $gt: new Date() }
         }).sort({ expiryDate: 1 });
@@ -41,6 +41,17 @@ const addSale = async (req, res) => {
     res.json({ message: "Sale completed successfully" });
 };
 
+const allSale = async (req, res) => {
+    try {
+        const getAllSale = await saleItemModel.find().populate('productId')
+        return res.status(200).json({ data: getAllSale, message: 'Sale items fetched successfully' })
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({ data: error, message: 'Internal server error', status: false })
+    }
+}
+
 module.exports = {
-    addSale
+    addSale,
+    allSale
 }

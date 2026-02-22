@@ -32,6 +32,17 @@ const addPurchase = async(req,res)=>{
     res.json({ message: "Purchase added successfully" });   
 }
 
+const allPurchase = async (req, res) => {
+    try {
+        const getAllPurchase = await purchaseItemModel.find().populate('productId')
+        return res.status(200).json({ data: getAllPurchase, message: 'Purchase items fetched successfully' })
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({ data: error, message: 'Internal server error', status: false })
+    }
+}
+
 module.exports = {
-    addPurchase
+    addPurchase,
+    allPurchase
 }

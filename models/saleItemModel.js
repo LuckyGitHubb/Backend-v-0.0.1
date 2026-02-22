@@ -9,4 +9,4 @@ const saleItemSchema = new mongoose.Schema({
 });
 
 const saleItemModel = mongoose.model('saleItem', saleItemSchema)
-module.exports = saleItemModel
+module.exports = saleItemModel  
