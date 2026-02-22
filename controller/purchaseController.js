@@ -4,7 +4,8 @@ const stockModel = require('../models/stockModel')
 const generateUniqueCode = require('../utils/generateUniqueCode');
 
 const addPurchase = async(req,res)=>{
-    const {branchId,items} = req.body;
+    try {
+        const {branchId,items} = req.body;
     const purchase = await purchaseModel.create({
         code: await generateUniqueCode('purchase','PUR'),
         branchId
@@ -29,13 +30,17 @@ const addPurchase = async(req,res)=>{
             sellingPrice: item.sellingPrice 
         });
     }
-    res.json({ message: "Purchase added successfully" });   
+    res.json({ message: "Purchase added successfully", status:true });
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({ data: error, message: 'Internal server error', status: false })
+    }   
 }
 
 const allPurchase = async (req, res) => {
     try {
         const getAllPurchase = await purchaseItemModel.find().populate('productId')
-        return res.status(200).json({ data: getAllPurchase, message: 'Purchase items fetched successfully' })
+        return res.status(200).json({ data: getAllPurchase, message: 'Purchase items fetched successfully', status:true })
     } catch (error) {
         console.log(error)
         return res.status(500).json({ data: error, message: 'Internal server error', status: false })

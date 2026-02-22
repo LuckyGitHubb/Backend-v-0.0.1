@@ -68,16 +68,28 @@ const createInvoice = async (req, res) => {
             paymentMode
         });
 
-        res.json({
+        res.status(200).json({
             message: "Invoice created successfully",
-            invoice
+            data:invoice,
+            status:true
         });
 
     } catch (err) {
-        res.status(500).json({ error: err.message });
+        res.status(500).json({ error: err.message, message: 'Internal server error', status: false });
     }
 };
 
+const allInvoice = async(req,res)=>{
+    try {
+        const getAllInvoice = await invoiceModel.find()
+        return res.status(200).json({data: getAllInvoice, message: 'Invoice fetched successfully', status: true})
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({ data: error, message: 'Internal server error', status: false })
+    }
+}
+
 module.exports = {
-    createInvoice
+    createInvoice,
+    allInvoice
 };

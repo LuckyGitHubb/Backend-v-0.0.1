@@ -28,10 +28,11 @@ const invoiceSchema = new mongoose.Schema({
 
     paymentMode: {
         type: String,
-        enum: ["CASH", "CARD", "UPI"]
+        enum: ["CASH", "CARD", "UPI", "NET_BANKING"]
     },
 
     createdAt: { type: Date, default: Date.now }
 });
 
-module.exports = mongoose.model("invoice", invoiceSchema);
+const invoiceModel = mongoose.model("invoice", invoiceSchema);
+module.exports = invoiceModel

@@ -4,7 +4,8 @@ const stockModel = require('../models/stockModel')
 const generateUniqueCode = require('../utils/generateUniqueCode');
 
 const addSale = async (req, res) => {
-    const { branchId, items } = req.body;
+    try {
+        const { branchId, items } = req.body;
     const saleCode = await generateUniqueCode("sale", "SAL")
     // 1. Create Sale 
     const sale = await saleModel.create({
@@ -38,13 +39,17 @@ const addSale = async (req, res) => {
         }
         if (remainingQty > 0) { throw new Error("Insufficient stock"); }
     }
-    res.json({ message: "Sale completed successfully" });
+    res.status(200).json({ message: "Sale completed successfully", status:true });
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({ data: error, message: 'Internal server error', status: false })
+    }
 };
 
 const allSale = async (req, res) => {
     try {
         const getAllSale = await saleItemModel.find().populate('productId')
-        return res.status(200).json({ data: getAllSale, message: 'Sale items fetched successfully' })
+        return res.status(200).json({ data: getAllSale, message: 'Sale items fetched successfully', status:true })
     } catch (error) {
         console.log(error)
         return res.status(500).json({ data: error, message: 'Internal server error', status: false })
