@@ -81,7 +81,7 @@ const createInvoice = async (req, res) => {
 
 const allInvoice = async(req,res)=>{
     try {
-        const getAllInvoice = await invoiceModel.find()
+        const getAllInvoice = await invoiceModel.find().populate('branchId')
         return res.status(200).json({data: getAllInvoice, message: 'Invoice fetched successfully', status: true})
     } catch (error) {
         console.log(error)

@@ -19,7 +19,7 @@ const PORT_NO = '5000';
 app.use('/transaction',transactionRouter)
 app.use('/purchase',purchaseRouter)
 app.use('/sale',saleRouter)
-app.use('/branch',branchRouter)
+app.use('/branch',branchRouter)         
 app.use('/product',productRouter)
 app.use('/stock',stockRouter)   
 app.use('/invoice',invoiceRouter)
