@@ -14,6 +14,7 @@ const branchRouter = require('./routes/branchRoute');
 const productRouter = require('./routes/productRoute');
 const stockRouter = require('./routes/stockRoute');
 const invoiceRouter = require('./routes/invoiceRoute');
+const dashboardRouter = require('./routes/dashboardRoute');
 const PORT_NO = '5000';
 
 app.use('/transaction',transactionRouter)
@@ -23,6 +24,7 @@ app.use('/branch',branchRouter)
 app.use('/product',productRouter)
 app.use('/stock',stockRouter)   
 app.use('/invoice',invoiceRouter)
+app.use('/dashboard',dashboardRouter)
 
 app.listen(PORT_NO,async()=>{
     try {
